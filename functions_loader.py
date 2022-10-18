@@ -330,7 +330,7 @@ def loader(path_face_csvfile, path_pose_folder, path_tps_folder, output_path, fi
             evmt_count += 1
     
     
-    return data, timestamps, output_path, subject_name
+    return data, timestamps, subject_name
     
 
 def cut_video(video_path, timestamps, output_path, subject_name):

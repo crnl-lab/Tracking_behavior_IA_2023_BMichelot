@@ -1,5 +1,5 @@
 import config as cfg
-import functions as fct
+import functions_loader as fct
 
 import os
 
@@ -33,13 +33,14 @@ path_tps_folder = cfg.data_raw_path + subject + "/"
 
 # must be empty folder named as subject name
 #output_path = "C:/Users/Bruno\Documents/MetaDossier/DUR306/"
-output_path = cfg.output_path + subject + "/"
+output_path = cfg.loader_output_path + subject + "/"
 if not os.path.exists(output_path):
     os.mkdir(output_path)
 print("Loading " + output_path[len(output_path) - 7:len(output_path) - 1])
 
 
-data, timestamps, output_path, subject_name = fct.loader(path_face_csvfile, path_pose_folder, path_tps_folder, output_path, filter= True, write=True)
+data, timestamps, subject_name = fct.loader(path_face_csvfile, path_pose_folder, path_tps_folder, output_path, filter= True, write=True)
+
 
 # #TODOBRUAL : ici on pourrait sauvegarder les infos precedentes et pouvoir executer le code suivant direct,
 # sans repasser par le loader
