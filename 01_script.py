@@ -41,6 +41,8 @@ print("Loading " + output_path[len(output_path) - 7:len(output_path) - 1])
 
 data, timestamps, output_path, subject_name = fct.loader(path_face_csvfile, path_pose_folder, path_tps_folder, output_path, filter= True, write=True)
 
+# #TODOBRUAL : ici on pourrait sauvegarder les infos precedentes et pouvoir executer le code suivant direct,
+# sans repasser par le loader
 print("cutting video")
 video_path = cfg.data_raw_path + subject + "/" + name_video
 fct.cut_video(video_path, timestamps, output_path, subject_name)

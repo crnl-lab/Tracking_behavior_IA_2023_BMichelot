@@ -337,7 +337,7 @@ def cut_video(video_path, timestamps, output_path, subject_name):
     """ cut the video from the video path into smaller videos for every event in the output path"""
 
     #open video file
-    vid = cv2.cv2.VideoCapture(video_path)
+    vid = cv2.VideoCapture(video_path)
 
     # define width and height from input
     frame_width = int(vid.get(3))
@@ -358,8 +358,8 @@ def cut_video(video_path, timestamps, output_path, subject_name):
             frame_num += 1
 
         # define the output writer
-        out = cv2.cv2.VideoWriter(output_path  + subject_name + '_' + str(evmt_count) + '_' + str(evmt['code']) + '.avi',
-                                cv2.cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'), frame_rate, (frame_width, frame_height))
+        out = cv2.VideoWriter(output_path  + subject_name + '_' + str(evmt_count) + '_' + str(evmt['code']) + '.avi',
+                                cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'), frame_rate, (frame_width, frame_height))
 
         while (frame_num < end_frame):
             # write video
@@ -368,8 +368,8 @@ def cut_video(video_path, timestamps, output_path, subject_name):
                 out.write(frame)
                 
                 # affichage des vidéos en temps réelle, non nécessaire
-                #cv2.cv2.imshow('frame', frame)
-                #if cv2.cv2.waitKey(1) & 0xFF == ord('q'):
+                #cv2.imshow('frame', frame)
+                #if cv2.waitKey(1) & 0xFF == ord('q'):
                 #   break
 
                 frame_num += 1
@@ -379,6 +379,6 @@ def cut_video(video_path, timestamps, output_path, subject_name):
         evmt_count += 1
 
     vid.release()
-    cv2.cv2.destroyAllWindows()
+    cv2.destroyAllWindows()
 
     return None
