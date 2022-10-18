@@ -33,7 +33,9 @@ path_tps_folder = cfg.data_raw_path + subject + "/"
 
 # must be empty folder named as subject name
 #output_path = "C:/Users/Bruno\Documents/MetaDossier/DUR306/"
-output_path = "C:/Users/Bruno/Documents/MetaDossier/" + subject + "/"
+output_path = cfg.output_path + subject + "/"
+if not os.path.exists(output_path):
+    os.mkdir(output_path)
 print("Loading " + output_path[len(output_path) - 7:len(output_path) - 1])
 
 
