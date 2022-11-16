@@ -55,7 +55,7 @@ for sub in on_subs:
         
         #filename = 'CHE324_10_C_data_interpolate.csv'
             
-        if filename.endswith(data_name_ending): 
+        if filename.endswith(data_name_ending):
             
             #print('Working on ' + filename)
             #print('Working on ' + path)
@@ -121,7 +121,8 @@ for sub in on_subs:
             
             # Set 'Presence' and 'Emotion'
             # Opening JSON file
-            f = open(path.replace(data_name_ending, event_name_endind))
+            print(sub_CSVs_path + filename.replace(data_name_ending, event_name_endind))
+            f = open(sub_CSVs_path + filename.replace(data_name_ending, event_name_endind))
             data_json = json.load(f)
             data['Presence'] = data_json['presence']
             data['Emotion'] = data_json['emotion']
@@ -129,6 +130,6 @@ for sub in on_subs:
             concat_sub_data = concat_sub_data.append(data[flat_part])
             #Est-ce qu'il y a bien toutes les colomnes voulues dans le bon ordre ?
                 
-    concat_sub_data.to_csv(cfg.median_CSV_output_path + '/' + sub + '_Median_Std.csv', index=False) # Pourquoi ça s'appelle median std ??
+    concat_sub_data.to_csv(cfg.median_CSV_output_path + '/' + sub + '_csv_4_analysis.csv', index=False) # Pourquoi ça s'appelle median std ??
     # export everything in one CSV  # quid de l'ordre ??
 
