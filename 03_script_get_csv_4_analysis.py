@@ -26,7 +26,7 @@ if not os.path.exists(cfg.median_CSV_output_path):
     os.mkdir(cfg.median_CSV_output_path)
 
 #list of selected subjects for export
-on_subs = cfg.some_subs  # could be cfg.all_subjects or other 
+on_subs = cfg.all_subjects  # could be cfg.all_subjects or other
 # input data path (iterpolate data are on the same path as 'classic' (basic) data)
 path_to_folder = cfg.loader_output_path
 data_name_ending = '_data_interpolate.csv'  # could be '_data.csv'
@@ -103,7 +103,7 @@ for sub in on_subs:
             #gaze : gaze_angle
             #head_orientation : angle of the head in 3D
             #head_position : postion of the head in  3D
-            part= [cfg.pose, cfg.face, cfg.hand, cfg.gaze_angle, cfg.gaze, cfg.head_orientation, cfg.head_position, cfg.AU]  
+            part= [cfg.wrist, cfg.face, cfg.gaze_angle, cfg.head_orientation, cfg.head_position, cfg.AU]
             #TODO : c'est les mêmes 'pose' et 'face' que pour la normalisation,
             #genre c'est la parametres définits dans config 1 bonne fois pour toutes (dans le script de G. ct pas le cas, plusieurs endroits)
             
@@ -130,12 +130,12 @@ for sub in on_subs:
             concat_sub_data = concat_sub_data.append(data[flat_part])
             #Est-ce qu'il y a bien toutes les colomnes voulues dans le bon ordre ?
                 
-    concat_sub_data.to_csv(cfg.median_CSV_output_path + '/' + sub + '_csv_4_analysis.csv', index=False) # Pourquoi ça s'appelle median std ??
+    # concat_sub_data.to_csv(cfg.median_CSV_output_path + '/' + sub + '_csv_4_analysis.csv', index=False) # Pourquoi ça s'appelle median std ??
     # export everything in one CSV  # quid de l'ordre ??
-    
-    concat_ALL_sub_data.append(concat_sub_data, ignore_index=True)
+
+    concat_ALL_sub_data = concat_ALL_sub_data.append(concat_sub_data, ignore_index=True)
 
 #Export all data in one excel file
-concat_ALL_sub_data.to_csv(cfg.median_CSV_output_path + '/' + 'csv_4_DL_LX.csv', index=False)
+concat_ALL_sub_data.to_csv(cfg.median_CSV_output_path + '/' + 'csv_4_DL_RN.csv', index=False)
 
 

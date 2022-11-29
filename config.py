@@ -75,6 +75,7 @@ hand = ['lefthand0x', 'lefthand0y', 'lefthand1x', 'lefthand1y', 'lefthand2x', 'l
 gaze = ['gaze_0_x','gaze_0_y','gaze_0_z','gaze_1_x','gaze_1_y','gaze_1_z']
 head_orientation = ['pose_Rx','pose_Ry','pose_Rz']
 head_position = ['pose_Tx','pose_Ty','pose_Tz']
+wrist = ['pose4x', 'pose4y', 'pose7x', 'pose7y']
 
 #ajouts Bruno
 #rightarm = ['pose5x', 'pose5y', 'pose6x', 'pose6y', 'pose7x', 'pose7y']
