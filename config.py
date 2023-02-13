@@ -9,12 +9,12 @@ if platform.uname() == 'lx37-Kubiak': #'tkz-XPS'
     data_raw_path = data_path + "/raw/"
     data_processed_path = data_path + "/OP_OF_processed/"
     loader_output_path = data_path + "/after_loading/"
-    median_CSV_output_path = data_path + "/Post_DLCSV/"
+    DL_CSV_output_path = data_path + "/Post_DLCSV/"
 else:
     data_raw_path = "D:/Bruno/Raw/" 
     data_processed_path = "D:/Bruno/processed/"
     loader_output_path =  "C:/Users/Bruno/Documents/MetaDossier/"
-    median_CSV_output_path = "C:/Users/Bruno/Documents/Meta_Output/" #TODO BRU
+    DL_CSV_output_path = "C:/Users/Bruno/Documents/Meta_Output/" #TODO BRU
 
 
 ###########################################################################

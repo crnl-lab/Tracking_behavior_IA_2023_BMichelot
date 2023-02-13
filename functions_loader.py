@@ -173,7 +173,7 @@ def set_tps_timeStamps(path_tps_folder):
         for filename in os.listdir(path_tps_folder):
             if filename.endswith("2.tps"):
                 tps_file = path_tps_folder + filename
-            if filename.endswith(".syncIN"):
+            if filename.endswith(".syncIN" or ".evtSE"):
                 stamps_file = path_tps_folder + filename
             if filename.endswith(".txt"):
                 slideres_file = path_tps_folder + filename
