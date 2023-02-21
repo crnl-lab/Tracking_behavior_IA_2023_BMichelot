@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 import config as cfg
 
 repo = cfg.loader_output_path
-subject = "CHE324"
+subject = "MAL313"
 
 #file = "C:/Users/Bruno/Documents/MetaDossier/CHE324/CHE324_9_A_data.csv"
 

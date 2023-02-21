@@ -5,7 +5,9 @@ import numpy as np
 import glob
 import json
 import functions_get_csv_4_analysis as fct
+import warnings
 
+warnings.simplefilter(action='ignore', category=FutureWarning)
 
 def get_Event_code(path):
     if '_A_' in path:
@@ -104,12 +106,12 @@ for sub in on_subs:
             #gaze : gaze_angle
             #head_orientation : angle of the head in 3D
             #head_position : postion of the head in  3D
-            part= [cfg.wrist, cfg.face, cfg.gaze_angle, cfg.head_orientation, cfg.head_position, cfg.AU]
+            part= [cfg.pose, cfg.face, cfg.gaze_angle, cfg.head_orientation, cfg.head_position, cfg.AU]
             #TODO : c'est les mêmes 'pose' et 'face' que pour la normalisation,
             #genre c'est la parametres définits dans config 1 bonne fois pour toutes (dans le script de G. ct pas le cas, plusieurs endroits)
 
             flat_part = [item for sublist in part for item in sublist] #flatten list of list
-            print('flat_part ', flat_part)
+            # print('flat_part ', flat_part)
 
             #add ['EventCode','Presence','Emotion']
             for col_name in ['EventCode','Presence','Emotion']:
@@ -128,7 +130,7 @@ for sub in on_subs:
             data['Presence'] = data_json['presence']
             data['Emotion'] = data_json['emotion']
 
-            # concat_sub_data = concat_sub_data.append(data[flat_part])
+            concat_sub_data = concat_sub_data.append(data[flat_part])
             #Est-ce qu'il y a bien toutes les colomnes voulues dans le bon ordre ?
 
     concat_sub_data.to_csv(cfg.DL_CSV_output_path + '/' + sub + '_positions_x_y.csv', index=False)
@@ -139,6 +141,7 @@ for sub in on_subs:
 #Export all data in one excel file
 # concat_ALL_sub_data.to_csv(cfg.DL_CSV_output_path + '/' + 'csv_4_DL_RN.csv', index=False)
 
-fct.adapt_csv_format(label='Subjectivity')
-
-
+#assign a variable to launch the first function to call the dataframe in the second function
+df = fct.adapt_csv_format(label='Both', normalize_scales=True, write=True)
+module_df = fct.module_calcul(df, write=True)
+fct.diff_module_calcul(module_df, write=True)
