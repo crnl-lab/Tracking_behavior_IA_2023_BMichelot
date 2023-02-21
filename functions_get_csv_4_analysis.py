@@ -121,7 +121,6 @@ def diff_module_calcul(module_df, write=True):
 
     warnings.simplefilter(action='ignore', category=FutureWarning)
 
-    module_df = pd.read_csv("C:/Users\Bruno\Documents\Meta_Output\All_Subs_Modules.csv", sep=';')
     Diff_Modules = pd.DataFrame(columns=module_df.columns)
     Diff_Modules = Diff_Modules.drop(['Subject', 'Emotion', 'Presence'], axis=1)
 
