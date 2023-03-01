@@ -55,6 +55,7 @@ def adapt_csv_format(label, normalize_scales=True, write=True):
                 print("--- %s seconds ---" % (time.time() - start_time))
                 Global_csv = pd.concat(data, ignore_index=True)
 
+
     #Replace "labels" columns at the beginning of the table
     moving_columns = Global_csv.pop('EventCode')
     Global_csv.insert(0, 'EventCode', moving_columns)
@@ -167,7 +168,7 @@ def diff_module_calcul(module_df, write=True):
         Diff_Modules = Diff_Modules.append(new_line, ignore_index=True)
 
     #Add and replace "labels" columns
-    columns_label = module_df[['Subject', 'Emotion', 'Presence']][:-1]
+    columns_label = module_df[['Subject', 'Emotion', 'Presence']].iloc[1:,:]
     Diff_Modules = pd.concat([Diff_Modules, columns_label],axis=1)
 
     moving_columns = Diff_Modules.pop('Subject')
@@ -176,6 +177,9 @@ def diff_module_calcul(module_df, write=True):
     Diff_Modules.insert(2, 'Presence', moving_columns)
     moving_columns = Diff_Modules.pop('Emotion')
     Diff_Modules.insert(2, 'Emotion', moving_columns)
+
+    Diff_Modules[['Subject', 'Emotion', 'Presence']] = Diff_Modules[['Subject', 'Emotion', 'Presence']].shift(-1)
+    Diff_Modules = Diff_Modules[:-1]
 
     print(Diff_Modules)
 
