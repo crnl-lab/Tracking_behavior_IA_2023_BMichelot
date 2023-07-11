@@ -9,6 +9,7 @@ import warnings
 
 def get_Event_code(path):
     #Get the event code translated for further analyses
+    #65 = SelfStim ; 66 = CtrlStim ; 67 = SelfRest ; 68 = CtrlRest ; 69 = SelfSoc ; 70 = CtrlSoc
 
     if '_A_' in path:
         code = 65
@@ -51,7 +52,7 @@ def adapt_csv_format(label, normalize_scales=True, write=True):
         for col in data[sub][['Emotion', 'Presence']]:
             if normalize_scales == True:
                 data[sub][col] = (data[sub][col] - data[sub][col].min()) / (data[sub][col].max() - data[sub][col].min())
-                print("Transformation des données")
+                print("Data transformation")
                 print("--- %s seconds ---" % (time.time() - start_time))
                 Global_csv = pd.concat(data, ignore_index=True)
 
@@ -69,12 +70,14 @@ def adapt_csv_format(label, normalize_scales=True, write=True):
     #Rename 'EventCode' by 'Condition'
     Global_csv = Global_csv.rename({'EventCode': 'Condition'}, axis=1)
 
-    #Choose columns for labelisation, 'Both' = Condition + Subjective scales, 'Condition' = Condition only, 'Subjectivity' = Subjectives scales only
+    #Choose columns for labelisation, 'Both' = Condition + Subjective scales, 'Condition' = Condition only, 'EmotionOnly' = Only emotional values, this was used in the paper 'Subjectivity' = Subjectives scales only
     if label == 'Both':
         print('Label choice : Both')
     elif label == 'Condition':
         Global_csv = Global_csv.drop(columns=['Presence', 'Emotion'])
         print('Label choice : Condition')
+    elif label == 'EmotionOnly':
+        Global_csv = Global_csv.drop(columns=['Presence'])
     elif label == 'Subjectivity':
         Global_csv = Global_csv.drop(columns=['Condition'])
         print('Label choice : Subjectivity')
@@ -91,7 +94,7 @@ def module_calcul(df, write=True):
     ###Function that calculate euclidian distances of every features at every frame (concatenation of pose x/y to
     ###obtain only 1 column pose)
 
-    print("Voici le tableau des données : ", df)
+    print("Data table : ", df)
 
     warnings.simplefilter(action='ignore', category=FutureWarning)
 
@@ -107,8 +110,8 @@ def module_calcul(df, write=True):
     Modules_csv = pd.DataFrame(columns=Modules)
 
 
-    #Module calculation
-    print("Calcul des modules, cela va prendre du temps (plusieurs heures). C'est le moment pour une pause café bien méritée.")
+    #Module (Euclidian distances) calculation
+    print("Euclidian distances calculation, it may take a while (several hours). Time for a coffee break well deserved.")
     for i in range(len(df)):
         temp = []
         for col in Modules_csv.columns:
@@ -122,7 +125,8 @@ def module_calcul(df, write=True):
         Modules_csv = Modules_csv.append(new_line, ignore_index=True)
 
     #Add and replace "labels" columns
-    columns_label = df.iloc[:,:4]
+    #columns_label = df.iloc[:,:4]
+    columns_label = df.iloc[:,:3]
 
     Modules_csv = pd.concat([Modules_csv,columns_label], axis=1)
 
@@ -130,8 +134,8 @@ def module_calcul(df, write=True):
     Modules_csv.insert(0, 'Condition', moving_columns)
     moving_columns = Modules_csv.pop('Subject')
     Modules_csv.insert(0, 'Subject', moving_columns)
-    moving_columns = Modules_csv.pop('Presence')
-    Modules_csv.insert(2, 'Presence', moving_columns)
+    #moving_columns = Modules_csv.pop('Presence')
+    #Modules_csv.insert(2, 'Presence', moving_columns)
     moving_columns = Modules_csv.pop('Emotion')
     Modules_csv.insert(2, 'Emotion', moving_columns)
 
@@ -153,13 +157,14 @@ def diff_module_calcul(module_df, write=True):
 
     #Create a empty df with same columns name to insert diff modules
     Diff_Modules = pd.DataFrame(columns=module_df.columns)
-    Diff_Modules = Diff_Modules.drop(['Subject', 'Emotion', 'Presence'], axis=1)
+    #Diff_Modules = Diff_Modules.drop(['Subject', 'Emotion', 'Presence'], axis=1)
+    Diff_Modules = Diff_Modules.drop(['Subject', 'Emotion'], axis=1)
 
     #Diff modules calculation
-    print("Calcul des différences de modules, cela va prendre du temps (plusieurs heures).")
+    print("Euclidian distances differences calculation, it may take a while (several hours)")
     for i in range (1,len(module_df)):
         temp = [module_df['Condition'][i]]
-        for col in module_df.columns[4::]:
+        for col in module_df.columns[3::]:
             if 'AU' in col:
                 temp.append(module_df[col][i])
             else:
@@ -168,17 +173,19 @@ def diff_module_calcul(module_df, write=True):
         Diff_Modules = Diff_Modules.append(new_line, ignore_index=True)
 
     #Add and replace "labels" columns
-    columns_label = module_df[['Subject', 'Emotion', 'Presence']].iloc[1:,:]
+    #columns_label = module_df[['Subject', 'Emotion', 'Presence']].iloc[1:,:]
+    columns_label = module_df[['Subject', 'Emotion']].iloc[1:, :]
     Diff_Modules = pd.concat([Diff_Modules, columns_label],axis=1)
 
     moving_columns = Diff_Modules.pop('Subject')
     Diff_Modules.insert(0, 'Subject', moving_columns)
-    moving_columns = Diff_Modules.pop('Presence')
-    Diff_Modules.insert(2, 'Presence', moving_columns)
+    #moving_columns = Diff_Modules.pop('Presence')
+    #Diff_Modules.insert(2, 'Presence', moving_columns)
     moving_columns = Diff_Modules.pop('Emotion')
     Diff_Modules.insert(2, 'Emotion', moving_columns)
 
-    Diff_Modules[['Subject', 'Emotion', 'Presence']] = Diff_Modules[['Subject', 'Emotion', 'Presence']].shift(-1)
+    #Diff_Modules[['Subject', 'Emotion', 'Presence']] = Diff_Modules[['Subject', 'Emotion', 'Presence']].shift(-1)
+    Diff_Modules[['Subject', 'Emotion']] = Diff_Modules[['Subject', 'Emotion']].shift(-1)
     Diff_Modules = Diff_Modules[:-1]
 
     print(Diff_Modules)

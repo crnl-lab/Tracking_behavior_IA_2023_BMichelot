@@ -4,9 +4,6 @@ import json
 import struct
 import warnings
 import cv2
-
-
-import config as cfg
 import filter as flt
 import convert_json as cvt
 
@@ -75,14 +72,12 @@ def reformat_pose(pose, faulty_frames):
     for frame in pose:
 
         if (len(frame['people']) > 1):
-            #TODO BRUNO DECOMMENTER
-            #print("Warning : plusieurs personnes sont détéctés par OpenPose à la frame " + str(frame_num))
+            print("Warning : plusieurs personnes sont détéctés par OpenPose à la frame " + str(frame_num))
             faulty_frames.append(frame_num)
 
 
         if (len(frame['people']) == 0):
-            # TODO BRUNO DECOMMENTER
-            #print("Warning : il n'y personne de détécté sur l'image à la frame " + str(frame_num))
+            print("Warning : il n'y personne de détécté sur l'image à la frame " + str(frame_num))
             faulty_frames.append(frame_num)
             frame_num += 1
             ret_frame = [0] * header_size
@@ -168,8 +163,6 @@ def set_tps_timeStamps(path_tps_folder):
         stamps_file = ""
         slideres_file = ""
         # selects the right tps and syncIN file from the folder
-        # BE CAREFUL with the naming of the videos, this function works if the video of the patient is the third and the file finished with 2.tps
-        #same as above
         for filename in os.listdir(path_tps_folder):
             if filename.endswith("2.tps"):
                 tps_file = path_tps_folder + filename
@@ -214,7 +207,7 @@ def set_tps_timeStamps(path_tps_folder):
         slideres = open(slideres_file, 'r')
         lines = slideres.readlines()
         count = 0
-        # rajoute la retour des témoins sur les échelles d'émotion et de présence dans le TimeStamps en les positionant entre -1 et 1
+        # add the subjective scales values of Emotion & Presence in the TimeStamps by rescaling it between -1 and 1
         for line in lines:
             temp = line.split("\t")
             if count % 2 == 0:
@@ -243,7 +236,7 @@ def regroup_data(pose, face, timestamps, times, faulty_frames):
             header.append(i)
 
         if (len(pose) != len(face)):
-            warnings.warn('WARNING: pas le même nombre de frame entre OpenPose et OpenFace')
+            warnings.warn('WARNING: not the same number of frames between OpenPose & OpenFace')
             print("nombre de frame openFace = " + str(len(face)))
             print("nombre de frame openPose = " + str(len(pose)))
 
@@ -259,7 +252,7 @@ def regroup_data(pose, face, timestamps, times, faulty_frames):
             start_time = times[evmt['start']]
             for framenum in range(evmt['start'], evmt['end']):
                 if framenum in faulty_frames:
-                    warnings.warn("ATTENTION il y a des frames avec soit trop de personnes soit zéro personnes pendant un évènement sur la frame : " + str(framenum))
+                    warnings.warn("WARNING: there is frames with too many or zero people during an event on the frame: " + str(framenum))
 
 
                 frame_data.append(times[framenum] - start_time)
@@ -310,7 +303,6 @@ def loader(path_face_csvfile, path_pose_folder, path_tps_folder, output_path, fi
     pose, faulty_frames = reformat_pose(frame_array, faulty_frames)
 
     print('change time stamp')
-    ###change from old version if loading new data
     times, timestamps = set_tps_timeStamps(path_tps_folder)
 
     # regroup all data
@@ -321,7 +313,7 @@ def loader(path_face_csvfile, path_pose_folder, path_tps_folder, output_path, fi
     
     if write:
         # Now, writes the loaded data in the output path
-        #for every event their is a data.csv file (2d matrix) and a signature.json file (dictionary)"""
+        # For every event their is a data.csv file (2d matrix) and a signature.json file (dictionary)"""
         evmt_count = 0
         for evmt in data:
             print("en train d'écrire le fichier correspondant à l'évènement : " + str(evmt[1]))
@@ -367,7 +359,7 @@ def cut_video(video_path, timestamps, output_path, subject_name):
             if ret == True:
                 out.write(frame)
                 
-                # affichage des vidéos en temps réelle, non nécessaire
+                # print the videos in real time, not necessary
                 #cv2.imshow('frame', frame)
                 #if cv2.waitKey(1) & 0xFF == ord('q'):
                 #   break

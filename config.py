@@ -11,10 +11,10 @@ if platform.uname() == 'lx37-Kubiak': #'tkz-XPS'
     loader_output_path = data_path + "/after_loading/"
     DL_CSV_output_path = data_path + "/Post_DLCSV/"
 else:
-    data_raw_path = "D:/Bruno/Raw/" 
-    data_processed_path = "D:/Bruno/Processed/"
-    loader_output_path =  "C:/Users/Bruno/Documents/MetaDossier/"
-    DL_CSV_output_path = "C:/Users/Bruno/Documents/Meta_Output/" #TODO BRU
+    data_raw_path = "D:/Bruno/Raw/" #your path to raw data (videos)
+    data_processed_path = "D:/Bruno/Processed/" #your path to data after being processed by OpenFace & OpenPose
+    loader_output_path =  "C:/Users/Bruno/Documents/MetaDossier/" #output path after 01_script_loader / 02_script_interpolate
+    DL_CSV_output_path = "C:/Users/Bruno/Documents/Meta_Output/" #output path after 03_script_get_csv_4_analysis
 
 
 ###########################################################################
