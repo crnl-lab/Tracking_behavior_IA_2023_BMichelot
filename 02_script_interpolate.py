@@ -9,7 +9,7 @@ import config as cfg
 repo = cfg.loader_output_path
 subject = "CHE324" #subject name to load
 
-#file = "C:/Users/your_path/CHE324/CHE324_9_A_data.csv" #if just one file to interpolate
+#file = "C:/Users/YOUR_PATH/CHE324/CHE324_9_A_data.csv" #if just one file to interpolate
 
 #for file in Path(repo).glob('**/*data.csv'):
 for file in Path(repo).glob(subject +'/*_data.csv'):
