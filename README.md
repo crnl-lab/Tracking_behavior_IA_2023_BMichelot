@@ -20,7 +20,7 @@ The various functions used by the loader are contained and documented in the "fu
 
 This script will produce 36 files .csv per subject, associated with the 36 conditions of the experiment (2 blocks x 3 situations x 6 repetitions). 
 
-##### To run this script, you need to input what is contained in the "Example_Data_To_Preprocess" folder. The paths to the data are entered in the "config.py" script. 
+##### To test this script, you need to input what is contained in the "Example_Data_To_Preprocess" folder. The paths to the data are entered in the "config.py" script. 
 
 ### 02_script_interpolate : 
 
@@ -34,7 +34,7 @@ Data normalization & transformation script.
 This script takes input files obtained after script loader or script interpolate.
 This script normalizes the data with respect to a relative point and subject size. 
 It also generates a table suitable for machine learning algorithms, labeling the conditions (changing EventCode from A, B, C, D, E, F to 65, 66, 67, 68, 69, 70) and taking features of our choice that we wish to give to the models (to define in config.py). It can also be used to add results from subjective scales, normalizing them to min/max. 
-Finally, it transforms position data into Euclidean distances (modulus) or differences in Euclidean distances (modulus differences). 
+Finally, it transforms position data into Euclidean distances (modules) or differences in Euclidean distances (modules differences). 
 (except normalizations, all functions are in functions_get_csv_4_analysis.py). 
 
 ### XGBoost.py : 
@@ -43,6 +43,8 @@ XGBoost model script in jupyter notebook format. This script takes as input the 
 The contrast/classification of interest can be selected according to eventcode (65 = SelfStim, 66 = CtrlStim, 67 = SelfRest, 68 = CtrlRest, 69 = SelfSoc, 70 = CtrlSoc). 
 N-fold cross validation is performed, where N is the number of subjects
 It also allows to obtain feature importances for each classification and save them, as is the case with accuracy. 
+
+##### To test this script, you can used as input the "Example_Data_For_Analysis" in the "Examples" folder.
 
 ### LSTM folder : 
 
@@ -61,3 +63,5 @@ The class indexes are: (0: SelfStim  1: CtrlStim  2: SelfRest  3: CtrlRest  4: S
 
 This script evaluates the models trained with train.py and stored in <input_dir>. It computes an average accuracy. 
 If <explain> is 1, feature attributions (with Integrated Gradients) will be computed and averaged over all time steps and runs and stored in "feature_attributions.csv".
+
+##### To test these scripts, you can used as input the "Example_Data_For_Analysis" in the "Examples" folder.
