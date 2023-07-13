@@ -8,7 +8,7 @@ OpenFace: https://github.com/TadasBaltrusaitis/OpenFace/wiki
 
 OpenPose: https://cmu-perceptual-computing-lab.github.io/openpose/web/html/doc/md_doc_00_index.html.
 
-Test data to check that the scripts are running properly can be found at the following link and in the "Examples" folder: https://zenodo.org/record/8138258
+Test data to check that the scripts are running properly can be found at the following link and in the "Examples" folder: https://zenodo.org/record/8139206
 
 ### 01_script_loader : 
 
